@@ -1,15 +1,35 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Programming Assignment 2 (Week 3)
+## D. Singletary
+## 6/2/18
+## Demonstrate lexical scoping using inverse matrix cache functions
 
-## Write a short comment describing this function
+## makeCacheMatrix creates a list of functions to cache inverse of matrix x
 
 makeCacheMatrix <- function(x = matrix()) {
-
+    m <- NULL
+    set <- function(y) {
+        x <<- y
+        m <<- NULL
+    }
+    get <- function() x
+    setMatrix <- function(matrix) m <<- matrix
+    getMatrix <- function() m
+    list(set = set, get = get,
+         setMatrix = setMatrix,
+         getMatrix = getMatrix)
 }
 
 
-## Write a short comment describing this function
+## cacheSolve uses result of makeCacheMatrix to calculate or use cached inverse value
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+    m <- x$getMatrix()
+    if (!is.null(m)) {
+        message("getting cached matrix")
+        return(m)
+    }
+    data <- x$get()
+    m <- solve(data)
+    x$setMatrix(m)
+    m
 }
